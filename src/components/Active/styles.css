@@ -1,0 +1,20 @@
+.actives-table .active-money,
+.actives-table .active-percent,
+.actives-table .total-money {
+  display: flex;
+  align-items: center;
+}
+
+.actives-table .active-money span,
+.actives-table .total-money span {
+  margin-right: 5px;
+}
+
+.actives-table .active-percent span {
+  margin-left: 5px;
+}
+
+.actives-table .remove-button i,
+.actives-table .add-button {
+  color: #00799c;
+}

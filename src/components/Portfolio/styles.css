@@ -1,0 +1,81 @@
+.actives-table {
+  width: 100%;
+  font-size: 13px;
+  border-collapse: collapse;
+}
+
+.actives-table th:nth-child(even),
+.actives-table td:nth-child(even) {
+  border-left: 1px solid #ebebeb;
+}
+
+.actives-table thead {
+  background-color: #f4f4f4;
+}
+.actives-table thead th {
+  padding: 15px 30px;
+  font-weight: 400;
+  text-align: left;
+}
+
+.actives-table thead th:nth-child(2) {
+  width: 210px;
+}
+
+.actives-table thead th:nth-child(3) {
+  width: 160px;
+  text-align: center;
+}
+
+.actives-table thead th:nth-child(4) {
+  width: 10px;
+}
+
+.actives-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.actives-table tbody td {
+  padding: 7px 30px;
+}
+
+.actives-table tbody td:last-child,
+.actives-table thead th:last-child {
+  padding: 5px;
+}
+
+.actives-table .sub-total-money {
+  text-align: right;
+}
+
+.actives-table .sub-total-percent {
+  color: #4f8eac;
+}
+
+.actives-table .total-percent {
+  display: block;
+  color: #fc3247;
+  font-size: 14px;
+}
+
+.actives-table .add-button {
+  margin-top: 3px;
+  background-color: #e1edfe;
+  border-radius: 3px;
+  width: 100%;
+  text-align: left;
+  font-weight: bold;
+  font-size: 14px;
+  border: none;
+  padding: 7px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.actives-table .add-button i {
+  margin-right: 6px;
+}
+
+.actives-table .add-button:hover {
+  background-color: #cee3ff;
+}
