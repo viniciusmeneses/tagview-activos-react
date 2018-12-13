@@ -2,7 +2,7 @@ import React from 'react';
 
 import './styles.css';
 
-const Portfolio = props => (
+const Portfolio = ({ data }) => (
   <table className="actives-table">
     <thead>
       <tr>
@@ -50,4 +50,4 @@ Adicionar ativo
   </table>
 );
 
-return Portfolio;
+export default Portfolio;
