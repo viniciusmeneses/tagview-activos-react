@@ -2,46 +2,27 @@ import React from 'react';
 
 import './styles.css';
 
-const Active = props => (
-  <tr id="${active.id}">
-    <td>
-$
-      {active.name}
-    </td>
+const Active = ({
+  id, name, money, percent, removeActive, portfolio
+}) => (
+  <tr>
+    <td>{name}</td>
     <td>
       <div className="active-money">
         <span>R$</span>
         {' '}
-        <input
-          type="number"
-          id="active-money-input-${
-                active.id
-              }"
-          value="${active.money}"
-        />
+        <input type="number" name="active-money" value={money} />
       </div>
     </td>
     <td>
       <div className="active-percent">
-        <input
-          type="number"
-          id="active-percent-input-${
-                active.id
-              }"
-          value="${active.percent}"
-        />
+        <input type="number" name="active-percent" value={percent} />
         {' '}
         <span>%</span>
       </div>
     </td>
     <td>
-      <button
-        type="button"
-        className="remove-button"
-        id="remove-button-${
-              active.id
-            }"
-      >
+      <button type="button" className="remove-button" onClick={() => removeActive(portfolio, id)}>
         <i className="fas fa-times" />
       </button>
     </td>

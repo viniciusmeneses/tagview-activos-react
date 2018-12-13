@@ -1,24 +1,26 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import Active from '../Active';
 
 import './styles.css';
 
-const Portfolio = ({ data }) => (
+const Portfolio = ({ data, addActive, removeActive }) => (
   <table className="actives-table">
     <thead>
       <tr>
         <th>
-          Ativos (
-          <span id="actives-count">3</span>
+            Ativos (
+          <span>{data.actives.length}</span>
 )
         </th>
         <th>
           <div className="total-money">
             <span>R$</span>
-            <input type="number" name="total-money" id="total-money" />
+            <input type="number" name="total-money" value={data.totalMoney} />
           </div>
           <div className="sub-total-money">
             <sub>
-              (Restante:
+                (Restante:
               <span id="total-money-remaining">-720,43</span>
 )
             </sub>
@@ -26,7 +28,7 @@ const Portfolio = ({ data }) => (
         </th>
         <th>
           <strong className="total-percent">
-            <span id="total-percent">0</span>
+            <span>{data.totalPercent}</span>
             {' '}
 %
           </strong>
@@ -35,11 +37,19 @@ const Portfolio = ({ data }) => (
         <th />
       </tr>
     </thead>
-    <tbody id="actives-list" />
+    <tbody>
+      {data.actives.map(active => (
+        <Active key={active.id} {...active} portfolio={data.id} removeActive={removeActive} />
+      ))}
+    </tbody>
     <tfoot>
       <tr>
         <td colSpan="4">
-          <button type="button" className="add-button" id="add-button">
+          <button
+            type="button"
+            className="add-button"
+            onClick={() => addActive.pushActive(data.id, addActive.createActive())}
+          >
             <i className="fas fa-plus-square" />
             {' '}
 Adicionar ativo
@@ -49,5 +59,16 @@ Adicionar ativo
     </tfoot>
   </table>
 );
+
+Portfolio.propTypes = {
+  data: PropTypes.shape({
+    id: PropTypes.number,
+    totalMoney: PropTypes.number,
+    totalPercent: PropTypes.number,
+    actives: PropTypes.array,
+  }).isRequired,
+  addActive: PropTypes.func.isRequired,
+  removeActive: PropTypes.func.isRequired,
+};
 
 export default Portfolio;

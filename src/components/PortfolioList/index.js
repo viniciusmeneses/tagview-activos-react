@@ -4,10 +4,10 @@ import Portfolio from '../Portfolio';
 
 import './styles.css';
 
-const PortfolioList = ({ portfolios }) => (
+const PortfolioList = ({ portfolios, ...activeProps }) => (
   <main>
     {portfolios.map(portfolio => (
-      <Portfolio key={portfolio.id} data={portfolio} />
+      <Portfolio key={portfolio.id} data={portfolio} {...activeProps} />
     ))}
   </main>
 );

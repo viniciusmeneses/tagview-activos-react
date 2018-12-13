@@ -23,7 +23,6 @@ class App extends Component {
         totalPercent: 0,
         actives: [],
       };
-
       if (first) {
         newPortfolio.actives = [...newPortfolio.actives, ...this.createActive(3)];
       }
@@ -32,6 +31,18 @@ class App extends Component {
         portfolios: [...prevState.portfolios, newPortfolio],
       };
     });
+  };
+
+  pushActivesToPortfolio = (id, actives) => {
+    this.setState(prevState => ({
+      portfolios: prevState.portfolios.map((portfolio) => {
+        const newPortfolio = portfolio;
+        if (portfolio.id === id) {
+          newPortfolio.actives = [...portfolio.actives, ...actives];
+        }
+        return newPortfolio;
+      }),
+    }));
   };
 
   createActive = (neededActives = 1) => {
@@ -50,12 +61,33 @@ class App extends Component {
     return actives;
   };
 
+  removeActive = (portfolioId, activeId) => {
+    this.setState(prevState => ({
+      portfolios: prevState.portfolios.map((portfolio) => {
+        const updatedPortfolio = portfolio;
+        if (portfolioId === portfolio.id) {
+          updatedPortfolio.actives = updatedPortfolio.actives.filter(
+            active => active.id !== activeId,
+          );
+        }
+        return updatedPortfolio;
+      }),
+    }));
+  };
+
   render() {
     const { portfolios } = this.state;
     return (
       <div className="App">
         <Header />
-        <PortfolioList portfolios={portfolios} />
+        <PortfolioList
+          portfolios={portfolios}
+          addActive={{
+            createActive: this.createActive,
+            pushActive: this.pushActivesToPortfolio,
+          }}
+          removeActive={this.removeActive}
+        />
       </div>
     );
   }
