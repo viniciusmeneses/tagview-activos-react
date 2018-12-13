@@ -58,6 +58,10 @@
   font-size: 14px;
 }
 
+.actives-table .total-percent-100 {
+  color: #252525;
+}
+
 .actives-table .add-button {
   margin-top: 3px;
   background-color: #e1edfe;

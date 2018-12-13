@@ -63,11 +63,14 @@ Adicionar ativo
 Portfolio.propTypes = {
   data: PropTypes.shape({
     id: PropTypes.number,
-    totalMoney: PropTypes.number,
-    totalPercent: PropTypes.number,
+    totalMoney: PropTypes.string,
+    totalPercent: PropTypes.string,
     actives: PropTypes.array,
   }).isRequired,
-  addActive: PropTypes.func.isRequired,
+  addActive: PropTypes.shape({
+    createActive: PropTypes.func,
+    pushActive: PropTypes.func,
+  }).isRequired,
   removeActive: PropTypes.func.isRequired,
 };
 

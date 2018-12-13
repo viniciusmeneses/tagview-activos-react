@@ -16,8 +16,8 @@ PortfolioList.propTypes = {
   portfolios: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
-      totalMoney: PropTypes.number,
-      totalPercent: PropTypes.number,
+      totalMoney: PropTypes.string,
+      totalPercent: PropTypes.string,
       actives: PropTypes.array,
     }),
   ).isRequired,

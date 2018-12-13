@@ -24,7 +24,10 @@ class App extends Component {
         actives: [],
       };
       if (first) {
-        newPortfolio.actives = [...newPortfolio.actives, ...this.createActive(3)];
+        const newActives = this.createActive(3);
+        newPortfolio.actives = [...newPortfolio.actives, ...newActives];
+        newPortfolio.totalMoney = this.getTotalMoney(newActives);
+        newPortfolio.totalPercent = this.getTotalPercent(newActives);
       }
 
       return {
@@ -32,6 +35,10 @@ class App extends Component {
       };
     });
   };
+
+  getTotalMoney = actives => actives.reduce((total, active) => total + Number(active.money), 0).toFixed(2);
+
+  getTotalPercent = actives => actives.reduce((total, active) => total + Number(active.percent), 0).toFixed(2);
 
   pushActivesToPortfolio = (id, actives) => {
     this.setState(prevState => ({
@@ -56,6 +63,10 @@ class App extends Component {
         money: 0,
         percent: 0,
       };
+      if (neededActives > 1) {
+        newActive.percent = (Math.random() * 100).toFixed(2);
+        newActive.money = ((newActive.percent / 100) * (Math.random() * 100000)).toFixed(2);
+      }
       actives = [...actives, newActive];
     }
     return actives;
