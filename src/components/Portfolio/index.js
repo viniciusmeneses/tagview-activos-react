@@ -15,6 +15,7 @@ export default class Portfolio extends Component {
     data: PropTypes.shape({
       id: PropTypes.number,
       totalMoney: PropTypes.string,
+      totalMoneyLocked: PropTypes.bool,
       totalPercent: PropTypes.string,
       actives: PropTypes.array,
       color: PropTypes.string,
@@ -32,6 +33,7 @@ export default class Portfolio extends Component {
       money: PropTypes.func.isRequired,
       percent: PropTypes.func.isRequired,
     }).isRequired,
+    updateTotalMoney: PropTypes.func.isRequired,
   };
 
   componentWillReceiveProps(nextProps) {
@@ -41,8 +43,24 @@ export default class Portfolio extends Component {
   }
 
   handleTotalMoneyChange = (e) => {
-    this.setState({ totalMoneyInput: e.target.value });
+    const { data, updateTotalMoney } = this.props;
+    const inputTotalMoney = e.target.value;
+    updateTotalMoney(data.id, inputTotalMoney);
+    this.setState({ totalMoneyInput: inputTotalMoney });
   };
+
+  getNewTotalMoney = (updatedId, updatedMoney) => {
+    const { data } = this.props;
+    const updatedActives = data.actives.map((active) => {
+      const newActive = { ...active };
+      if (newActive.id === updatedId) {
+        newActive.money = updatedMoney;
+      }
+      return newActive;
+    });
+
+    return updatedActives.reduce((total, active) => total + Number(active.money), 0)
+  }
 
   render() {
     const {
@@ -51,7 +69,7 @@ export default class Portfolio extends Component {
     const { totalMoneyInput } = this.state;
 
     return (
-      <article style={{borderTop: `2px solid ${data.color}`}}>
+      <article style={{ borderTop: `2px solid ${data.color}` }}>
         <table className="actives-table">
           <thead>
             <tr>
@@ -111,9 +129,10 @@ export default class Portfolio extends Component {
               <Active
                 key={active.id}
                 {...active}
-                portfolio={{ id: data.id, totalMoney: data.totalMoney }}
+                portfolio={{ id: data.id, totalMoney: data.totalMoney, totalMoneyLocked: data.totalMoneyLocked }}
                 removeActive={removeActive}
                 updateActive={updateActive}
+                getNewTotalMoney={this.getNewTotalMoney}
               />
             ))}
           </tbody>
@@ -131,7 +150,7 @@ export default class Portfolio extends Component {
                 </button>
               </td>
               <td>
-                <ColorPicker animation="slide-up" color={data.color} onChange={(e) => updateColor(data.id, e.color)} />
+                <ColorPicker animation="slide-up" color={data.color} onChange={e => updateColor(data.id, e.color)} />
               </td>
             </tr>
           </tfoot>

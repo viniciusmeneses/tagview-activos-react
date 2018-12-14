@@ -9,6 +9,7 @@ const PortfolioList = ({
   addPortfolio,
   removePortfolio,
   updateColor,
+  updateTotalMoney,
   ...activeProps
 }) => (
   <main>
@@ -18,6 +19,7 @@ const PortfolioList = ({
         data={portfolio}
         removePortfolio={removePortfolio}
         updateColor={updateColor}
+        updateTotalMoney={updateTotalMoney}
         {...activeProps}
       />
     ))}
@@ -34,6 +36,7 @@ PortfolioList.propTypes = {
     PropTypes.shape({
       id: PropTypes.number,
       totalMoney: PropTypes.string,
+      totalMoneyLocked: PropTypes.bool,
       totalPercent: PropTypes.string,
       actives: PropTypes.array,
       color: PropTypes.string,
@@ -44,6 +47,7 @@ PortfolioList.propTypes = {
   addPortfolio: PropTypes.func.isRequired,
   removePortfolio: PropTypes.func.isRequired,
   updateColor: PropTypes.func.isRequired,
+  updateTotalMoney: PropTypes.func.isRequired,
 };
 
 export default PortfolioList;

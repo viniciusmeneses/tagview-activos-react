@@ -17,12 +17,14 @@ export default class Active extends Component {
     portfolio: PropTypes.shape({
       id: PropTypes.number,
       totalMoney: PropTypes.string,
+      totalMoneyLocked: PropTypes.bool,
     }).isRequired,
     removeActive: PropTypes.func.isRequired,
     updateActive: PropTypes.shape({
       money: PropTypes.func.isRequired,
       percent: PropTypes.func.isRequired,
     }).isRequired,
+    getNewTotalMoney: PropTypes.func.isRequired,
   };
 
   componentWillReceiveProps(nextProps) {
@@ -33,17 +35,26 @@ export default class Active extends Component {
   }
 
   handleMoneyInput = (e) => {
-    const { id, updateActive, portfolio } = this.props;
+    const { id, updateActive, portfolio, getNewTotalMoney } = this.props;
     const inputValue = e.target.value;
+
+    let totalMoney = portfolio.totalMoney;
+    if (!portfolio.totalMoneyLocked) {
+      totalMoney = getNewTotalMoney(id, inputValue).toFixed(2);
+    }
+
     this.setState({ moneyInput: inputValue });
-    updateActive.percent(portfolio, id, inputValue);
+    updateActive.percent({ id: portfolio.id, totalMoney }, id, inputValue);
   };
 
   handlePercentInput = (e) => {
     const { id, updateActive, portfolio } = this.props;
     const inputValue = e.target.value;
+
+    let totalMoney = portfolio.totalMoney;
+
     this.setState({ percentInput: inputValue });
-    updateActive.money(portfolio, id, inputValue);
+    updateActive.money({ id: portfolio.id, totalMoney }, id, inputValue);
   };
 
   render() {

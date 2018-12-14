@@ -20,6 +20,7 @@ class App extends Component {
       const newPortfolio = {
         id: prevState.portfolios.length,
         totalMoney: '0',
+        totalMoneyLocked: false,
         totalPercent: '0',
         actives: [],
         color: this.getRandomColor(),
@@ -133,11 +134,19 @@ class App extends Component {
             if (newActive.id === activeId) {
               newActive.money = ((percent / 100) * totalMoney).toFixed(2);
               newActive.percent = percent;
+            } else {
+              newActive.money = ((newActive.percent / 100) * totalMoney).toFixed(2);
             }
             return newActive;
           });
 
           newPortfolio.totalPercent = newPortfolio.getTotalPercent();
+
+          // if (Number(newPortfolio.totalPercent) > 100) {
+          //   newPortfolio.totalMoney = newPortfolio.getTotalMoney();
+          // } else {
+          newPortfolio.totalMoney = totalMoney;
+          // }
           return newPortfolio;
         },
       );
@@ -161,10 +170,13 @@ class App extends Component {
             if (newActive.id === activeId) {
               newActive.money = money;
               newActive.percent = ((Number(money) * 100) / Number(totalMoney)).toFixed(2);
+            } else {
+              newActive.percent = ((Number(newActive.money) * 100) / Number(totalMoney)).toFixed(2);
             }
             return newActive;
           });
 
+          newPortfolio.totalMoney = totalMoney;
           newPortfolio.totalPercent = newPortfolio.getTotalPercent();
           return newPortfolio;
         },
@@ -200,7 +212,22 @@ class App extends Component {
         newPortfolio.color = color;
         return newPortfolio;
       });
-      
+
+      return {
+        portfolios: newPortfolios,
+      };
+    });
+  }
+
+  updateTotalMoney = (portfolioId, newTotalMoney) => {
+    this.setState((prevState) => {
+      const newPortfolios = this.findPortfolioAndUpdate(prevState.portfolios, portfolioId, (portfolio) => {
+        const newPortfolio = { ...portfolio };
+        newPortfolio.totalMoney = newTotalMoney;
+        newPortfolio.totalMoneyLocked = true;
+        return newPortfolio;
+      });
+
       return {
         portfolios: newPortfolios,
       };
@@ -217,6 +244,7 @@ class App extends Component {
           portfolios={portfolios}
           addPortfolio={this.createPortfolio}
           removePortfolio={this.removePortfolio}
+          updateTotalMoney={this.updateTotalMoney}
           updateColor={this.updatePortfolioColor}
           addActive={{
             createActive: this.createActive,
