@@ -22,6 +22,7 @@ class App extends Component {
         totalMoney: '0',
         totalPercent: '0',
         actives: [],
+        color: this.getRandomColor(),
         getTotalMoney() {
           return this.actives.reduce((total, active) => total + Number(active.money), 0).toFixed(2);
         },
@@ -43,6 +44,15 @@ class App extends Component {
       };
     });
   };
+
+  getRandomColor = () => {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
 
   pushActivesToPortfolio = (id, actives) => {
     this.setState(prevState => ({
@@ -174,10 +184,6 @@ class App extends Component {
     return updatedPortfolio;
   });
 
-  addPortfolio = () => {
-
-  }
-
   removePortfolio = (id) => {
     this.setState((prevState) => {
       const newPortfolios = prevState.portfolios.filter(portfolio => portfolio.id !== id)
@@ -186,6 +192,20 @@ class App extends Component {
       };
     });
   };
+
+  updatePortfolioColor = (id, color) => {
+    this.setState((prevState) => {
+      const newPortfolios = this.findPortfolioAndUpdate(prevState.portfolios, id, (portfolio) => {
+        const newPortfolio = { ...portfolio };
+        newPortfolio.color = color;
+        return newPortfolio;
+      });
+      
+      return {
+        portfolios: newPortfolios,
+      };
+    });
+  }
 
   render() {
     const { portfolios } = this.state;
@@ -197,6 +217,7 @@ class App extends Component {
           portfolios={portfolios}
           addPortfolio={this.createPortfolio}
           removePortfolio={this.removePortfolio}
+          updateColor={this.updatePortfolioColor}
           addActive={{
             createActive: this.createActive,
             pushActive: this.pushActivesToPortfolio,

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ColorPicker from 'rc-color-picker';
 import Active from '../Active';
 
+import 'rc-color-picker/assets/index.css';
 import './styles.css';
 
 export default class Portfolio extends Component {
@@ -15,10 +17,12 @@ export default class Portfolio extends Component {
       totalMoney: PropTypes.string,
       totalPercent: PropTypes.string,
       actives: PropTypes.array,
+      color: PropTypes.string,
       getTotalMoney: PropTypes.func,
       getTotalPercent: PropTypes.func,
     }).isRequired,
     removePortfolio: PropTypes.func.isRequired,
+    updateColor: PropTypes.func.isRequired,
     addActive: PropTypes.shape({
       createActive: PropTypes.func.isRequired,
       pushActive: PropTypes.func.isRequired,
@@ -42,12 +46,12 @@ export default class Portfolio extends Component {
 
   render() {
     const {
-      data, addActive, removeActive, updateActive, removePortfolio,
+      data, addActive, removeActive, updateActive, removePortfolio, updateColor,
     } = this.props;
     const { totalMoneyInput } = this.state;
 
     return (
-      <section>
+      <article style={{borderTop: `2px solid ${data.color}`}}>
         <table className="actives-table">
           <thead>
             <tr>
@@ -115,7 +119,7 @@ export default class Portfolio extends Component {
           </tbody>
           <tfoot>
             <tr>
-              <td colSpan="4">
+              <td colSpan="3">
                 <button
                   type="button"
                   className="add-button"
@@ -126,10 +130,13 @@ export default class Portfolio extends Component {
   Adicionar ativo
                 </button>
               </td>
+              <td>
+                <ColorPicker animation="slide-up" color={data.color} onChange={(e) => updateColor(data.id, e.color)} />
+              </td>
             </tr>
           </tfoot>
         </table>
-      </section>
+      </article>
     );
   }
 }

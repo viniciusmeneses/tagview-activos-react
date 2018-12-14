@@ -1,4 +1,4 @@
-section {
+article {
   margin: 15px 0;
   border-radius: 3px;
   box-shadow: 0 0px 2px 0 #00000031;
@@ -74,7 +74,8 @@ section {
   margin-top: 3px;
   background-color: #e1edfe;
   border-radius: 3px;
-  width: 100%;
+  margin-right: 3px;
+  width: calc(100% - 3px);
   text-align: left;
   font-weight: bold;
   font-size: 14px;
@@ -90,4 +91,11 @@ section {
 
 .actives-table .add-button:hover {
   background-color: #cee3ff;
+}
+
+.actives-table tfoot td:nth-child(2) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 5px 5px 5px;
 }

@@ -5,7 +5,11 @@ import Portfolio from '../Portfolio';
 import './styles.css';
 
 const PortfolioList = ({
-  portfolios, addPortfolio, removePortfolio, ...activeProps
+  portfolios,
+  addPortfolio,
+  removePortfolio,
+  updateColor,
+  ...activeProps
 }) => (
   <main>
     {portfolios.map(portfolio => (
@@ -13,6 +17,7 @@ const PortfolioList = ({
         key={portfolio.id}
         data={portfolio}
         removePortfolio={removePortfolio}
+        updateColor={updateColor}
         {...activeProps}
       />
     ))}
@@ -31,10 +36,14 @@ PortfolioList.propTypes = {
       totalMoney: PropTypes.string,
       totalPercent: PropTypes.string,
       actives: PropTypes.array,
+      color: PropTypes.string,
+      getTotalMoney: PropTypes.func,
+      getTotalPercent: PropTypes.func,
     }),
   ).isRequired,
   addPortfolio: PropTypes.func.isRequired,
   removePortfolio: PropTypes.func.isRequired,
+  updateColor: PropTypes.func.isRequired,
 };
 
 export default PortfolioList;
