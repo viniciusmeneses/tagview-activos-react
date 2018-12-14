@@ -80,7 +80,6 @@ class App extends Component {
       actives = actives.map((active) => {
         const updatedActive = { ...active };
         updatedActive.percent = ((Number(active.money) * 100) / Number(activesMoney)).toFixed(2);
-        console.log(updatedActive, activesMoney);
         return updatedActive;
       });
     }
@@ -175,6 +174,19 @@ class App extends Component {
     return updatedPortfolio;
   });
 
+  addPortfolio = () => {
+
+  }
+
+  removePortfolio = (id) => {
+    this.setState((prevState) => {
+      const newPortfolios = prevState.portfolios.filter(portfolio => portfolio.id !== id)
+      return {
+        portfolios: newPortfolios,
+      };
+    });
+  };
+
   render() {
     const { portfolios } = this.state;
 
@@ -183,6 +195,8 @@ class App extends Component {
         <Header />
         <PortfolioList
           portfolios={portfolios}
+          addPortfolio={this.createPortfolio}
+          removePortfolio={this.removePortfolio}
           addActive={{
             createActive: this.createActive,
             pushActive: this.pushActivesToPortfolio,

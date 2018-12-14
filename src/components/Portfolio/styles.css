@@ -1,3 +1,11 @@
+section {
+  margin: 15px 0;
+  border-radius: 3px;
+  box-shadow: 0 0px 2px 0 #00000031;
+  padding: 3px;
+  color: #444444;
+}
+
 .actives-table {
   width: 100%;
   font-size: 13px;

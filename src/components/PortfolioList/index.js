@@ -4,11 +4,23 @@ import Portfolio from '../Portfolio';
 
 import './styles.css';
 
-const PortfolioList = ({ portfolios, ...activeProps }) => (
+const PortfolioList = ({
+  portfolios, addPortfolio, removePortfolio, ...activeProps
+}) => (
   <main>
     {portfolios.map(portfolio => (
-      <Portfolio key={portfolio.id} data={portfolio} {...activeProps} />
+      <Portfolio
+        key={portfolio.id}
+        data={portfolio}
+        removePortfolio={removePortfolio}
+        {...activeProps}
+      />
     ))}
+    <div className="add-portfolio">
+      <button type="button" onClick={() => addPortfolio()}>
+        <i className="fa fa-plus-square" />
+      </button>
+    </div>
   </main>
 );
 
@@ -21,6 +33,8 @@ PortfolioList.propTypes = {
       actives: PropTypes.array,
     }),
   ).isRequired,
+  addPortfolio: PropTypes.func.isRequired,
+  removePortfolio: PropTypes.func.isRequired,
 };
 
 export default PortfolioList;
