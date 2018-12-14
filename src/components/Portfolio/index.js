@@ -15,20 +15,35 @@ export default class Portfolio extends Component {
       totalMoney: PropTypes.string,
       totalPercent: PropTypes.string,
       actives: PropTypes.array,
+      getTotalMoney: PropTypes.func,
+      getTotalPercent: PropTypes.func,
     }).isRequired,
     addActive: PropTypes.shape({
-      createActive: PropTypes.func,
-      pushActive: PropTypes.func,
+      createActive: PropTypes.func.isRequired,
+      pushActive: PropTypes.func.isRequired,
     }).isRequired,
     removeActive: PropTypes.func.isRequired,
+    updateActive: PropTypes.shape({
+      money: PropTypes.func.isRequired,
+      percent: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
-  handleTotalMoneyChange(e) {
-    this.setState({ totalMoneyInput: e.target.value })
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    this.setState({
+      totalMoneyInput: nextProps.data.totalMoney,
+    });
+  }
+
+  handleTotalMoneyChange = (e) => {
+    this.setState({ totalMoneyInput: e.target.value });
   }
 
   render() {
-    const { data, addActive, removeActive } = this.props;
+    const {
+      data, addActive, removeActive, updateActive,
+    } = this.props;
     const { totalMoneyInput } = this.state;
 
     return (
@@ -48,7 +63,12 @@ export default class Portfolio extends Component {
               <div className="sub-total-money">
                 <sub>
                     (Restante:
-                  <span id="total-money-remaining">-720,43</span>
+                  {' '}
+                  <span id="total-money-remaining">
+R$
+                    {' '}
+                    {(totalMoneyInput - data.getTotalMoney()).toFixed(2)}
+                                    </span>
     )
                 </sub>
               </div>
@@ -66,7 +86,7 @@ export default class Portfolio extends Component {
         </thead>
         <tbody>
           {data.actives.map(active => (
-            <Active key={active.id} {...active} portfolio={data.id} removeActive={removeActive} />
+            <Active key={active.id} {...active} portfolio={{ id: data.id, totalMoney: data.totalMoney }} removeActive={removeActive} updateActive={updateActive} />
           ))}
         </tbody>
         <tfoot>

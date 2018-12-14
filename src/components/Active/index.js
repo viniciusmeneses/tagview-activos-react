@@ -14,16 +14,36 @@ export default class Active extends Component {
     name: PropTypes.string.isRequired,
     money: PropTypes.string.isRequired,
     percent: PropTypes.string.isRequired,
+    portfolio: PropTypes.shape({
+      id: PropTypes.number,
+      totalMoney: PropTypes.string,
+    }).isRequired,
     removeActive: PropTypes.func.isRequired,
-    portfolio: PropTypes.number.isRequired,
+    updateActive: PropTypes.shape({
+      money: PropTypes.func.isRequired,
+      percent: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      moneyInput: nextProps.money,
+      percentInput: nextProps.percent,
+    });
+  }
+
   handleMoneyInput = (e) => {
-    this.setState({ moneyInput: e.target.value });
+    const { id, updateActive, portfolio } = this.props;
+    const inputValue = e.target.value;
+    this.setState({ moneyInput: inputValue });
+    updateActive.percent(portfolio, id, inputValue);
   };
 
   handlePercentInput = (e) => {
-    this.setState({ percentInput: e.target.value });
+    const { id, updateActive, portfolio } = this.props;
+    const inputValue = e.target.value;
+    this.setState({ percentInput: inputValue });
+    updateActive.money(portfolio, id, inputValue);
   };
 
   render() {
@@ -63,7 +83,7 @@ export default class Active extends Component {
           <button
             type="button"
             className="remove-button"
-            onClick={() => removeActive(portfolio, id)}
+            onClick={() => removeActive(portfolio.id, id)}
           >
             <i className="fas fa-times" />
           </button>
