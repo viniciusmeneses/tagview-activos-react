@@ -59,13 +59,11 @@ export default class Portfolio extends Component {
       return newActive;
     });
 
-    return updatedActives.reduce((total, active) => total + Number(active.money), 0)
-  }
+    return updatedActives.reduce((total, active) => total + Number(active.money), 0);
+  };
 
   render() {
-    const {
-      data, addActive, removeActive, updateActive, removePortfolio, updateColor,
-    } = this.props;
+    const { data, addActive, removeActive, updateActive, removePortfolio, updateColor } = this.props;
     const { totalMoneyInput } = this.state;
 
     return (
@@ -74,51 +72,27 @@ export default class Portfolio extends Component {
           <thead>
             <tr>
               <th>
-                Ativos (
-                <span>{data.actives.length}</span>
-                )
+                Ativos (<span>{data.actives.length}</span>)
               </th>
               <th>
                 <div className="total-money">
                   <span>R$</span>
-                  <input
-                    type="number"
-                    name="total-money"
-                    onChange={this.handleTotalMoneyChange}
-                    value={totalMoneyInput}
-                  />
+                  <input type="number" name="total-money" onChange={this.handleTotalMoneyChange} value={totalMoneyInput} />
                 </div>
                 <div className="sub-total-money">
                   <sub>
-                    (Restante:
-                    {' '}
-                    <span id="total-money-remaining">
-                      R$
-                      {' '}
-                      {data.totalMoneyRemaining}
-                    </span>
-                    )
+                    (Restante: <span id="total-money-remaining"> R$ {data.totalMoneyRemaining}</span>)
                   </sub>
                 </div>
               </th>
               <th>
-                <strong
-                  className={`total-percent ${
-                    data.totalPercent === '100.00' ? 'total-percent-100' : ''
-                    }`}
-                >
-                  <span>{data.totalPercent}</span>
-                  {' '}
-                  %
+                <strong className={`total-percent ${data.totalPercent === '100.00' ? 'total-percent-100' : ''}`}>
+                  <span>{data.totalPercent}</span> %
                 </strong>
                 <sub className="sub-total-percent">Participação Iguais</sub>
               </th>
               <th>
-                <button
-                  type="button"
-                  className="remove-button"
-                  onClick={() => removePortfolio(data.id)}
-                >
+                <button type="button" className="remove-button" onClick={() => removePortfolio(data.id)}>
                   <i className="fas fa-trash-alt" />
                 </button>
               </th>
@@ -129,7 +103,11 @@ export default class Portfolio extends Component {
               <Active
                 key={active.id}
                 {...active}
-                portfolio={{ id: data.id, totalMoney: data.totalMoney, totalMoneyLocked: data.totalMoneyLocked }}
+                portfolio={{
+                  id: data.id,
+                  totalMoney: data.totalMoney,
+                  totalMoneyLocked: data.totalMoneyLocked,
+                }}
                 removeActive={removeActive}
                 updateActive={updateActive}
                 getNewTotalMoney={this.getNewTotalMoney}
@@ -139,14 +117,8 @@ export default class Portfolio extends Component {
           <tfoot>
             <tr>
               <td colSpan="3">
-                <button
-                  type="button"
-                  className="add-button"
-                  onClick={() => addActive.pushActive(data.id, addActive.createActive())}
-                >
-                  <i className="fas fa-plus-square" />
-                  {' '}
-                  Adicionar ativo
+                <button type="button" className="add-button" onClick={() => addActive.pushActive(data.id, addActive.createActive())}>
+                  <i className="fas fa-plus-square" /> Adicionar ativo
                 </button>
               </td>
               <td>

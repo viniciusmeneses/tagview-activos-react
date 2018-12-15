@@ -35,7 +35,9 @@ export default class Active extends Component {
   }
 
   handleMoneyInput = (e) => {
-    const { id, updateActive, portfolio, getNewTotalMoney } = this.props;
+    const {
+      id, updateActive, portfolio, getNewTotalMoney,
+    } = this.props;
     const inputValue = e.target.value;
 
     let totalMoney = portfolio.totalMoney;
@@ -56,9 +58,7 @@ export default class Active extends Component {
   };
 
   render() {
-    const {
-      id, name, removeActive, portfolio,
-    } = this.props;
+    const { id, name, removeActive, portfolio } = this.props;
     const { moneyInput, percentInput } = this.state;
 
     return (
@@ -66,34 +66,16 @@ export default class Active extends Component {
         <td>{name}</td>
         <td>
           <div className="active-money">
-            <span>R$</span>
-            {' '}
-            <input
-              type="number"
-              name="active-money"
-              onChange={this.handleMoneyInput}
-              value={moneyInput}
-            />
+            <span>R$</span> <input type="number" name="active-money" onChange={this.handleMoneyInput} value={moneyInput} />
           </div>
         </td>
         <td>
           <div className="active-percent">
-            <input
-              type="number"
-              name="active-percent"
-              onChange={this.handlePercentInput}
-              value={percentInput}
-            />
-            {' '}
-            <span>%</span>
+            <input type="number" name="active-percent" onChange={this.handlePercentInput} value={percentInput} /> <span>%</span>
           </div>
         </td>
         <td>
-          <button
-            type="button"
-            className="remove-button"
-            onClick={() => removeActive(portfolio.id, id)}
-          >
+          <button type="button" className="remove-button" onClick={() => removeActive(portfolio.id, id)}>
             <i className="fas fa-times" />
           </button>
         </td>

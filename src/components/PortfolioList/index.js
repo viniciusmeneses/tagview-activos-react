@@ -4,14 +4,7 @@ import Portfolio from '../Portfolio';
 
 import './styles.css';
 
-const PortfolioList = ({
-  portfolios,
-  addPortfolio,
-  removePortfolio,
-  updateColor,
-  updateTotalMoney,
-  ...activeProps
-}) => (
+const PortfolioList = ({ portfolios, addPortfolio, removePortfolio, updateColor, updateTotalMoney, ...activeProps }) => (
   <main>
     {portfolios.map(portfolio => (
       <Portfolio

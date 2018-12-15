@@ -37,6 +37,7 @@ class App extends Component {
           this.totalMoneyRemaining = (totalMoney - activesMoney).toFixed(2);
         },
       };
+
       if (first) {
         const newActives = this.createActive(3);
         newPortfolio.actives = [...newPortfolio.actives, ...newActives];
@@ -58,7 +59,7 @@ class App extends Component {
       color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
-  }
+  };
 
   pushActivesToPortfolio = (id, actives) => {
     this.setState(prevState => ({
@@ -84,6 +85,7 @@ class App extends Component {
         money: '0',
         percent: '0',
       };
+
       if (neededActives > 1) {
         const money = Math.random() * 100000;
         activesMoney += money;
@@ -104,21 +106,16 @@ class App extends Component {
 
   removeActive = (portfolioId, activeId) => {
     this.setState((prevState) => {
-      const newPortfolios = this.findPortfolioAndUpdate(
-        prevState.portfolios,
-        portfolioId,
-        (portfolio) => {
-          const updatedPortfolio = portfolio;
-          if (portfolioId === portfolio.id) {
-            updatedPortfolio.actives = updatedPortfolio.actives.filter(
-              active => active.id !== activeId,
-            );
-          }
-          updatedPortfolio.totalPercent = updatedPortfolio.getTotalPercent();
-
-          return updatedPortfolio;
-        },
-      );
+      const newPortfolios = this.findPortfolioAndUpdate(prevState.portfolios, portfolioId, (portfolio) => {
+        const updatedPortfolio = portfolio;
+        if (portfolioId === portfolio.id) {
+          updatedPortfolio.actives = updatedPortfolio.actives.filter(
+            active => active.id !== activeId,
+          );
+        }
+        updatedPortfolio.totalPercent = updatedPortfolio.getTotalPercent();
+        return updatedPortfolio;
+      });
 
       return {
         portfolios: newPortfolios,
@@ -128,39 +125,35 @@ class App extends Component {
 
   updateActiveMoney = ({ id: portfolioId, totalMoney }, activeId, percent) => {
     this.setState((prevState) => {
-      const newPortfolios = this.findPortfolioAndUpdate(
-        prevState.portfolios,
-        portfolioId,
-        (portfolio) => {
-          const newPortfolio = { ...portfolio };
+      const newPortfolios = this.findPortfolioAndUpdate(prevState.portfolios, portfolioId, (portfolio) => {
+        const newPortfolio = { ...portfolio };
 
-          newPortfolio.actives = newPortfolio.actives.map((active) => {
-            const newActive = { ...active };
-            if (newActive.id === activeId) {
-              newActive.money = ((percent / 100) * totalMoney).toFixed(2);
-              newActive.percent = percent;
-            } else {
-              newActive.money = ((newActive.percent / 100) * totalMoney).toFixed(2);
-            }
-            return newActive;
-          });
-
-          newPortfolio.totalPercent = newPortfolio.getTotalPercent();
-          // newPortfolio.totalMoney = newTotalMoney;
-
-          if (!newPortfolio.totalMoneyLocked) {
-            if (Number(newPortfolio.totalPercent) > 100) {
-              newPortfolio.totalMoney = newPortfolio.getTotalMoney();
-            } else {
-              newPortfolio.totalMoney = totalMoney;
-            }
+        newPortfolio.actives = newPortfolio.actives.map((active) => {
+          const newActive = { ...active };
+          if (newActive.id === activeId) {
+            newActive.money = ((percent / 100) * totalMoney).toFixed(2);
+            newActive.percent = percent;
+          } else {
+            newActive.money = ((newActive.percent / 100) * totalMoney).toFixed(2);
           }
+          return newActive;
+        });
 
-          console.log(totalMoney, newPortfolio.totalMoney)
-          newPortfolio.updateTotalMoneyRemaining(totalMoney)
-          return newPortfolio;
-        },
-      );
+        newPortfolio.totalPercent = newPortfolio.getTotalPercent();
+        // newPortfolio.totalMoney = newTotalMoney;
+
+        if (!newPortfolio.totalMoneyLocked) {
+          if (Number(newPortfolio.totalPercent) > 100) {
+            newPortfolio.totalMoney = newPortfolio.getTotalMoney();
+          } else {
+            newPortfolio.totalMoney = totalMoney;
+          }
+        }
+
+        console.log(totalMoney, newPortfolio.totalMoney);
+        newPortfolio.updateTotalMoneyRemaining(totalMoney);
+        return newPortfolio;
+      });
 
       return {
         portfolios: newPortfolios,
@@ -170,29 +163,35 @@ class App extends Component {
 
   updateActivePercent = ({ id: portfolioId, totalMoney }, activeId, money) => {
     this.setState((prevState) => {
-      const newPortfolios = this.findPortfolioAndUpdate(
-        prevState.portfolios,
-        portfolioId,
-        (portfolio) => {
-          const newPortfolio = { ...portfolio };
+      const newPortfolios = this.findPortfolioAndUpdate(prevState.portfolios, portfolioId, (portfolio) => {
+        const newPortfolio = { ...portfolio };
 
-          newPortfolio.actives = newPortfolio.actives.map((active) => {
-            const newActive = { ...active };
-            if (newActive.id === activeId) {
-              newActive.money = money;
+        newPortfolio.actives = newPortfolio.actives.map((active) => {
+          const newActive = { ...active };
+
+          if (newActive.id === activeId) {
+            newActive.money = money;
+            if (money == 0) {
+              newActive.percent = '0';
+            } else {
               newActive.percent = ((Number(money) * 100) / Number(totalMoney)).toFixed(2);
+            }
+          } else {
+            if (newActive.money == 0) {
+              newActive.percent = '0';
             } else {
               newActive.percent = ((Number(newActive.money) * 100) / Number(totalMoney)).toFixed(2);
             }
-            return newActive;
-          });
+          }
 
-          newPortfolio.totalMoney = totalMoney;
-          newPortfolio.totalPercent = newPortfolio.getTotalPercent();
-          newPortfolio.updateTotalMoneyRemaining();
-          return newPortfolio;
-        },
-      );
+          return newActive;
+        });
+
+        newPortfolio.totalMoney = totalMoney;
+        newPortfolio.totalPercent = newPortfolio.getTotalPercent();
+        newPortfolio.updateTotalMoneyRemaining();
+        return newPortfolio;
+      });
 
       return {
         portfolios: newPortfolios,
@@ -210,7 +209,7 @@ class App extends Component {
 
   removePortfolio = (id) => {
     this.setState((prevState) => {
-      const newPortfolios = prevState.portfolios.filter(portfolio => portfolio.id !== id)
+      const newPortfolios = prevState.portfolios.filter(portfolio => portfolio.id !== id);
       return {
         portfolios: newPortfolios,
       };
@@ -229,7 +228,7 @@ class App extends Component {
         portfolios: newPortfolios,
       };
     });
-  }
+  };
 
   updateTotalMoney = (portfolioId, newTotalMoney) => {
     this.setState((prevState) => {
@@ -252,7 +251,7 @@ class App extends Component {
         portfolios: newPortfolios,
       };
     });
-  }
+  };
 
   render() {
     const { portfolios } = this.state;
