@@ -51,10 +51,8 @@ export default class Active extends Component {
     const { id, updateActive, portfolio } = this.props;
     const inputValue = e.target.value;
 
-    let totalMoney = portfolio.totalMoney;
-
     this.setState({ percentInput: inputValue });
-    updateActive.money({ id: portfolio.id, totalMoney }, id, inputValue);
+    updateActive.money({ id: portfolio.id, totalMoney: portfolio.totalMoney }, id, inputValue);
   };
 
   render() {

@@ -76,7 +76,7 @@ export default class Portfolio extends Component {
               <th>
                 Ativos (
                 <span>{data.actives.length}</span>
-  )
+                )
               </th>
               <th>
                 <div className="total-money">
@@ -95,7 +95,7 @@ export default class Portfolio extends Component {
                     <span id="total-money-remaining">
                       R$
                       {' '}
-                      {(totalMoneyInput - data.getTotalMoney()).toFixed(2)}
+                      {data.totalMoneyRemaining}
                     </span>
                     )
                   </sub>
@@ -105,11 +105,11 @@ export default class Portfolio extends Component {
                 <strong
                   className={`total-percent ${
                     data.totalPercent === '100.00' ? 'total-percent-100' : ''
-                  }`}
+                    }`}
                 >
                   <span>{data.totalPercent}</span>
                   {' '}
-  %
+                  %
                 </strong>
                 <sub className="sub-total-percent">Participação Iguais</sub>
               </th>
@@ -146,7 +146,7 @@ export default class Portfolio extends Component {
                 >
                   <i className="fas fa-plus-square" />
                   {' '}
-  Adicionar ativo
+                  Adicionar ativo
                 </button>
               </td>
               <td>
